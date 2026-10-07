@@ -36,6 +36,8 @@ public static class GameManagerSetup
         GameObject gameManager = new GameObject("GameManager");
 
         gameManager.AddComponent<CasinoTableManager>();
+        gameManager.AddComponent<MatchController>();
+        gameManager.AddComponent<TableInputManager>();
         gameManager.AddComponent<DynamicUIManager>();
         gameManager.AddComponent<DominoSet>();
 

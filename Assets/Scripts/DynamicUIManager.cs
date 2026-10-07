@@ -27,33 +27,39 @@ public class DynamicUIManager : MonoBehaviour
 
     #region Notificaciones de Comodín Combinatorio
     [Header("Notificaciones de Comodín Combinatorio")]
-    [SerializeField] private float notificationFloatSpeed = 10f; // Velocidad de aparición de notificación
-    [SerializeField] private float notificationScaleRange = 0.5f; // Rango de escala de la notificación
+    public GameObject notificationPrefab;
+    [SerializeField] private float notificationFloatSpeed = 10f; 
+    [SerializeField] private float notificationScaleRange = 0.5f; 
     
     private float lastNotificationTime;
     private float notificationTimer;
     #endregion
 
     #region Estado de la Interfaz
-    private int currentVictoryPanel = 0; // 0 = victoria, 1 = derrota
+    private int currentVictoryPanel = 0; 
     private bool showCombinationDoublesNotification = false;
     #endregion
 
     #region Variables
     private List<PlayerData> players = new List<PlayerData>();
-    private Dictionary<int, Sprite> playerSprites = new Dictionary<int, Sprite>(); // Mapa de índice de jugador a sprite
+    private Dictionary<int, Sprite> playerSprites = new Dictionary<int, Sprite>();
     #endregion
+
+    [Header("Núcleo de partida (bajo acoplamiento)")]
+    [SerializeField] private MatchController matchController;
+    [SerializeField] private Text scoreLabel;
+
+    private const float PlayedPieceSpacing = 0.65f;
+    private static readonly Color PlayedTint = new Color(0.82f, 0.82f, 0.82f, 0.9f);
 
     #region Initialization
     private void Start()
     {
-        // Inicializar referencias a avatares
         if (playerAvatarLeft != null) playerAvatarLeft.gameObject.SetActive(true);
         if (playerAvatarRight != null) playerAvatarRight.gameObject.SetActive(true);
         if (playerAvatarTop != null) playerAvatarTop.gameObject.SetActive(true);
         if (playerAvatarBottom != null) playerAvatarBottom.gameObject.SetActive(true);
 
-        // Crear panel de victoria
         if (victoryPanel != null)
         {
             victoryPanel.SetActive(false);
@@ -61,7 +67,6 @@ public class DynamicUIManager : MonoBehaviour
             winConfettiEffect.gameObject.SetActive(false);
         }
 
-        // Crear panel de derrota
         if (defeatPanel != null)
         {
             defeatPanel.SetActive(false);
@@ -69,52 +74,163 @@ public class DynamicUIManager : MonoBehaviour
             loseConfettiEffect.gameObject.SetActive(false);
         }
 
-        // Inicializar notificaciones
         lastNotificationTime = -Mathf.Infinity;
         notificationTimer = 0f;
+
+        ResolveMatchController();
+        EnsureScoreLabel();
+        SubscribeToMatchEvents();
+        RefreshScoreLabel(matchController != null ? matchController.CurrentPlayerIndex : 0,
+            matchController != null ? matchController.GetScore(matchController.CurrentPlayerIndex) : 0);
     }
 
+    private void OnDestroy()
+    {
+        if (matchController == null)
+            return;
+
+        matchController.OnScoreUpdated -= HandleScoreUpdated;
+        matchController.OnPiecePlayed -= HandlePiecePlayed;
+    }
+    #endregion
+
+    #region Suscripción a MatchController
+    private void ResolveMatchController()
+    {
+        if (matchController != null)
+            return;
+
+        matchController = GetComponent<MatchController>();
+        if (matchController == null)
+            matchController = FindFirstObjectByType<MatchController>();
+        if (matchController == null)
+            matchController = gameObject.AddComponent<MatchController>();
+    }
+
+    private void SubscribeToMatchEvents()
+    {
+        if (matchController == null)
+            return;
+
+        matchController.OnScoreUpdated += HandleScoreUpdated;
+        matchController.OnPiecePlayed += HandlePiecePlayed;
+    }
+
+    private void HandleScoreUpdated(int playerIndex, int totalScore)
+    {
+        RefreshScoreLabel(playerIndex, totalScore);
+    }
+
+    private void HandlePiecePlayed(DominoPiece piece, int playerIndex)
+    {
+        if (piece == null)
+            return;
+
+        piece.SetPlayerInputEnabled(false);
+        ApplyPlayedVisuals(piece);
+        MovePieceToTableCenter(piece);
+    }
+
+    private void RefreshScoreLabel(int playerIndex, int totalScore)
+    {
+        if (scoreLabel == null)
+            EnsureScoreLabel();
+        if (scoreLabel == null)
+            return;
+
+        scoreLabel.text = $"Puntos J{playerIndex + 1}: {totalScore}";
+    }
+
+    private void ApplyPlayedVisuals(DominoPiece piece)
+    {
+        SpriteRenderer[] renderers = piece.GetComponentsInChildren<SpriteRenderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i] != null)
+                renderers[i].color = PlayedTint;
+        }
+    }
+
+    private void MovePieceToTableCenter(DominoPiece piece)
+    {
+        int placedIndex = 0;
+        if (matchController != null && matchController.State != null)
+            placedIndex = Mathf.Max(0, matchController.State.PlacedPieces.Count - 1);
+
+        Vector3 chainOffset = new Vector3((placedIndex - 3) * PlayedPieceSpacing, 0f, -0.2f);
+        piece.transform.SetParent(null);
+        piece.transform.position = chainOffset;
+    }
+
+    private void EnsureScoreLabel()
+    {
+        if (scoreLabel != null)
+            return;
+
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null)
+        {
+            GameObject canvasObj = new GameObject("HUDCanvas");
+            canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasObj.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasObj.AddComponent<GraphicRaycaster>();
+        }
+
+        GameObject scoreObj = new GameObject("ScoreLabel");
+        scoreObj.transform.SetParent(canvas.transform, false);
+
+        scoreLabel = scoreObj.AddComponent<Text>();
+        scoreLabel.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        if (scoreLabel.font == null)
+            scoreLabel.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        scoreLabel.fontSize = 36;
+        scoreLabel.alignment = TextAnchor.UpperLeft;
+        scoreLabel.color = Color.white;
+        scoreLabel.raycastTarget = false;
+        scoreLabel.text = "Puntos J1: 0";
+
+        RectTransform rect = scoreLabel.rectTransform;
+        rect.anchorMin = new Vector2(0f, 1f);
+        rect.anchorMax = new Vector2(0f, 1f);
+        rect.pivot = new Vector2(0f, 1f);
+        rect.anchoredPosition = new Vector2(32f, -24f);
+        rect.sizeDelta = new Vector2(520f, 64f);
+    }
     #endregion
 
     #region Notificaciones de Comodín Combinatorio
-    /// <summary>
-    /// Dispara una notificación de Comodín Combinatorio (doble o valor de riesgo).
-    /// </summary>
     public void ShowCombinationDoublesNotification(int playerIndex)
     {
         if (showCombinationDoublesNotification)
         {
-            // Ocultar notificación anterior
             victoryLabel.gameObject.SetActive(false);
             defeatLabel.gameObject.SetActive(false);
             
-            // Activar nueva notificación
             lastNotificationTime = Time.time;
             notificationTimer = 0f;
             
-            // Crear objeto de notificación
-            GameObject notificationObj = Instantiate(notificationPrefab, transform);
-            notificationObj.transform.localPosition = new Vector3(
-                (playerIndex % 2) * 2 - 1, 
-                (playerIndex / 2) * 2 - 1, 
-                0
-            );
-            notificationObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            if (notificationPrefab != null) 
+            {
+                GameObject notificationObj = Instantiate(notificationPrefab, transform);
+                notificationObj.transform.localPosition = new Vector3(
+                    (playerIndex % 2) * 2 - 1, 
+                    (playerIndex / 2) * 2 - 1, 
+                    0
+                );
+                notificationObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                
+                // CORRECCIÓN APLICADA AQUÍ: Se cambió Vector3.Scale por new Vector3
+                float scale = 1f + (Mathf.Sin(Time.time * notificationFloatSpeed) * 0.5f) * (notificationScaleRange * 2 - 1);
+                notificationObj.transform.localScale = new Vector3(scale, scale, scale);
+            }
             
-            // Configurar texto de la notificación
             string message = $"¡{players[playerIndex].playerName} ha colocado un Comodín Combinatorio!";
             victoryLabel.text = message;
             victoryLabel.gameObject.SetActive(true);
-            
-            // Animar la notificación
-            float scale = 1f + (Mathf.Sin(Time.time * notificationFloatSpeed) * 0.5f) * (notificationScaleRange * 2 - 1);
-            notificationObj.transform.localScale = Vector3.Scale(scale, scale, scale);
         }
     }
 
-    /// <summary>
-    /// Desactivar la notificación de Comodín Combinatorio.
-    /// </summary>
     public void HideCombinationDoublesNotification()
     {
         if (showCombinationDoublesNotification)
@@ -124,51 +240,42 @@ public class DynamicUIManager : MonoBehaviour
             showCombinationDoublesNotification = false;
         }
     }
-
     #endregion
 
     #region Panel de Victoria/Derrota
-    /// <summary>
-    /// Cambia el panel de victoria o derrota según el resultado.
-    /// </summary>
     public void ShowVictoryPanel()
     {
         currentVictoryPanel = 0;
         victoryPanel.SetActive(true);
-        victoryLabel.text = $"{players[currentVictoryPanel].playerName} ¡GANA!";
+        if (players.Count > currentVictoryPanel) 
+        {
+            victoryLabel.text = $"{players[currentVictoryPanel].playerName} ¡GANA!";
+        }
         
-        // Activar efectos de confeti
         if (winConfettiEffect != null)
         {
             winConfettiEffect.gameObject.SetActive(true);
         }
     }
 
-    /// <summary>
-    /// Cambia el panel de derrota.
-    /// </summary>
     public void ShowDefeatPanel()
     {
         currentVictoryPanel = 1;
         defeatPanel.SetActive(true);
         defeatLabel.text = "El oponente ha ganado";
         
-        // Activar efectos de confeti negativo
         if (loseConfettiEffect != null)
         {
             loseConfettiEffect.gameObject.SetActive(true);
         }
     }
-
     #endregion
 
     #region Notificaciones Flotantes
-    /// <summary>
-    /// Emite una notificación flotante de alto impacto cuando ocurre un evento importante.
-    /// </summary>
-    public void ShowFloatingNotification(string message, float duration = 2f)
+    public IEnumerator ShowFloatingNotification(string message, float duration = 2f)
     {
-        // Calcular posición aleatoria en la pantalla
+        if (notificationPrefab == null) yield break;
+
         float x = Random.Range(-1f, 1f);
         float z = Random.Range(0f, 1f);
         
@@ -176,65 +283,56 @@ public class DynamicUIManager : MonoBehaviour
         notification.transform.localPosition = new Vector3(x, z, 0);
         notification.transform.localRotation = Quaternion.identity;
         
-        // Texto de la notificación
         Text text = notification.GetComponentInChildren<Text>();
         if (text != null)
         {
             text.text = message;
-            text.alignment = TextAlignment.Left;
+            text.alignment = TextAnchor.MiddleLeft; 
         }
         
-        // Animar entrada
         float entryDelay = Random.Range(0.5f, 1.5f);
         yield return new WaitForSeconds(entryDelay);
         
-        // Animar salida
         float exitDelay = Random.Range(0.5f, 1.5f);
         yield return new WaitForSeconds(exitDelay);
         
-        // Desactivar
         notification.gameObject.SetActive(false);
     }
-
     #endregion
 
     #region Actualización de Avatares
-    /// <summary>
-    /// Actualiza la posición y apariencia de los avatares visuales de los jugadores.
-    /// </summary>
     public void UpdatePlayerAvatars(int playerIndex, Vector3 position, Color color)
     {
         if (playerIndex < 0 || playerIndex >= players.Count) return;
         
-        var player = players[playerIndex];
         if (playerAvatarLeft != null)
         {
             playerAvatarLeft.transform.position = position;
-            playerAvatarLeft.GetComponent<SpriteRenderer>().color = color;
+            if (playerAvatarLeft.GetComponent<Image>() != null)
+                playerAvatarLeft.GetComponent<Image>().color = color;
         }
         if (playerAvatarRight != null)
         {
             playerAvatarRight.transform.position = position;
-            playerAvatarRight.GetComponent<SpriteRenderer>().color = color;
+            if (playerAvatarRight.GetComponent<Image>() != null)
+                playerAvatarRight.GetComponent<Image>().color = color;
         }
         if (playerAvatarTop != null)
         {
             playerAvatarTop.transform.position = position;
-            playerAvatarTop.GetComponent<SpriteRenderer>().color = color;
+            if (playerAvatarTop.GetComponent<Image>() != null)
+                playerAvatarTop.GetComponent<Image>().color = color;
         }
         if (playerAvatarBottom != null)
         {
             playerAvatarBottom.transform.position = position;
-            playerAvatarBottom.GetComponent<SpriteRenderer>().color = color;
+            if (playerAvatarBottom.GetComponent<Image>() != null)
+                playerAvatarBottom.GetComponent<Image>().color = color;
         }
     }
-
     #endregion
 
     #region Callbacks para el Sistema de Juego
-    /// <summary>
-    /// Llamar cuando un jugador juega una ficha y se genera un Comodín Combinatorio.
-    /// </summary>
     public void OnPlayerPlaysCombinationDoubles(int playerIndex)
     {
         if (showCombinationDoublesNotification)
@@ -243,15 +341,15 @@ public class DynamicUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Llamar cuando se resuelve una combinación de dominó.
-    /// </summary>
     public void OnPlayerPlaysStandardMove(int playerIndex)
     {
-        // Actualizar posición del avatar
-        UpdatePlayerAvatars(playerIndex, playerAvatarLeft?.position ?? Vector3.zero, playerAvatarLeft?.color ?? Color.white);
+        Color avatarColor = Color.white;
+        if (playerAvatarLeft != null && playerAvatarLeft.GetComponent<Image>() != null)
+        {
+            avatarColor = playerAvatarLeft.GetComponent<Image>().color;
+        }
+        UpdatePlayerAvatars(playerIndex, playerAvatarLeft?.position ?? Vector3.zero, avatarColor);
     }
-
     #endregion
 
     #region Corrutinas de Efectos
@@ -262,12 +360,10 @@ public class DynamicUIManager : MonoBehaviour
         {
             float progress = (Time.time - startTime) / duration;
             float intensity = Mathf.SmoothStep(0f, 1f, progress);
-            // Modificar el color del confeti según el progreso
             Color tintedColor = Color.Lerp(Color.white, color, intensity);
             yield return null;
         }
         yield break;
     }
-
     #endregion
 }

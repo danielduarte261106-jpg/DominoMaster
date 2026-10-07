@@ -4,34 +4,15 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class DominoPiece : MonoBehaviour
 {
-    // Valores de los lados del dominó (0-6)
     [SerializeField] private int sideA = 0;
     [SerializeField] private int sideB = 0;
 
-    // Referencias a componentes
     private Rigidbody2D rb;
     private BoxCollider2D bc;
     private SpriteRenderer spriteRenderer;
-
-    // Configuración de física
-    [Header("Física")]
-    [Tooltip("Gravedad aplicada al caer")]
-    public float fallGravity = 1.5f;
-    [Tooltip("Fuerza de rebote al impactar")]
-    public float bounceForce = 0.2f;
-    [Tooltip("Tiempo para ajustarse a la posición final")]
-    public float settleTime = 0.3f;
-
-    // Referencia a los sprites de frutas (0=Semilla,1=Manzana,2=Uva,3=Limón,4=Piña,5=Sandía,6=Fresa)
-    private Sprite[] fruitSprites;
-
-    // Estado interno
-    private bool isSettled = false;
-    private Vector3 targetPosition;
-    private Quaternion targetRotation;
-
-    // Eventos (opcional para otros sistemas)
-    public System.Action<DominoPiece> OnSettled;
+    private MatchController matchController;
+    private bool inputEnabled = true;
+    private int lastClickFrame = -1;
 
     private void Awake()
     {
@@ -39,162 +20,132 @@ public class DominoPiece : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Configuración inicial de física
-        rb.gravityScale = fallGravity;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
-        bc.isTrigger = false;
-
-        // Cargar sprites de frutas desde Resources/Frutas/
-        fruitSprites = Resources.LoadAll<Sprite>("Frutas");
-        if (fruitSprites == null || fruitSprites.Length == 0)
+        rb.gravityScale = 0f;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        if (bc != null)
         {
-            Debug.LogError("[DominoPiece] No se encontraron sprites en Resources/Frutas/. Asegúrate de que los assets estén allí.");
-        }
-        else
-        {
-            UpdateSprite();
+            bc.size = Vector2.one;
+            bc.enabled = true;
         }
     }
 
     private void Start()
     {
-        // Al iniciar, la pieza cae libremente gracias a la gravedad del Rigidbody2D.
-        // Cuando colisione con algo (mesa u otra ficha), OnCollisionEnter2D manejará el rebote y el asentamiento.
+        matchController = GetComponentInParent<MatchController>();
+        if (matchController == null)
+            matchController = FindFirstObjectByType<MatchController>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnMouseDown()
     {
-        if (isSettled) return;
-
-        // Simular un pequeño rebote al impactar
-        rb.velocity = Vector2.zero; // Detener velocidad lineal para evitar acumulación
-        rb.angularVelocity = 0f;   // Detener rotación
-
-        // Aplicar un impulso upward pequeño para el efecto de rebote
-        Vector2 bounceDir = collision.GetContact(0).normal;
-        rb.AddForce(bounceDir * bounceForce, ForceMode2D.Impulse);
-
-        // Después de un breve momento, iniciar el asentamiento a la posición final
-        StartCoroutine(SettleToPosition(transform.position, transform.rotation));
+        TryPlayFromInput();
     }
 
-    /// <summary>
-    /// Corrutina que interpola posición y rotación a los valores objetivo usando Lerp.
-    /// </summary>
-    private IEnumerator SettleToPosition(Vector3 targetPos, Quaternion targetRot)
+    public bool TryPlayFromInput()
     {
-        float elapsed = 0f;
-        Vector3 startPos = transform.position;
-        Quaternion startRot = transform.rotation;
+        if (!inputEnabled || lastClickFrame == Time.frameCount)
+            return false;
 
-        while (elapsed < settleTime)
+        lastClickFrame = Time.frameCount;
+
+        if (matchController == null)
+            matchController = FindFirstObjectByType<MatchController>();
+
+        if (matchController == null)
+            return false;
+
+        return matchController.TryPlayPiece(this);
+    }
+
+    public void SetPlayerInputEnabled(bool enabled)
+    {
+        inputEnabled = enabled;
+        if (bc == null)
+            bc = GetComponent<BoxCollider2D>();
+        if (bc != null)
+            bc.enabled = enabled;
+    }
+
+    public void SetupVisuals(int leftVal, int rightVal, Sprite leftSprite, Sprite rightSprite)
+    {
+        sideA = leftVal;
+        sideB = rightVal;
+
+        // 2. EL ARREGLO DEL FONDO: Aseguramos un fondo blanco para la ficha
+        if (spriteRenderer != null)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / settleTime;
-            // Suavizado (ease out)
-            t = 1f - Mathf.Cos(t * Mathf.PI * 0.5f);
-            transform.position = Vector3.Lerp(startPos, targetPos, t);
-            transform.rotation = Quaternion.Lerp(startRot, targetRot, t);
-            yield return null;
+            spriteRenderer.enabled = true;
+            if (spriteRenderer.sprite == null)
+            {
+                Texture2D tex = new Texture2D(1, 1);
+                tex.SetPixel(0, 0, Color.white);
+                tex.Apply();
+                spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f), 1f);
+                spriteRenderer.color = new Color(0.95f, 0.95f, 0.95f);
+            }
         }
 
-        // Asegurar valores exactos
-        transform.position = targetPos;
-        transform.rotation = targetRot;
-        isSettled = true;
-        rb.isKinematic = true; // Desactivar física una vez asentado
-        bc.enabled = false;    // Opcional: desactivar colisión para evitar interferencias
-
-        OnSettled?.Invoke(this);
-    }
-
-    /// <summary>
-    /// Llama a este método desde el sistema de juego para indicar la posición final donde debe quedar la ficha.
-    /// </summary>
-    public void SetTargetTransform(Vector3 position, Quaternion rotation)
-    {
-        targetPosition = position;
-        targetRotation = rotation;
-        // Si ya está quieto (por ejemplo, se coloca directamente sin caer), asentamos inmediatamente.
-        if (!rb.isKinematic && rb.velocity.sqrMagnitude < 0.01f)
+        if (bc == null)
+            bc = GetComponent<BoxCollider2D>();
+        if (bc != null)
         {
-            StartCoroutine(SettleToPosition(targetPosition, targetRotation));
+            bc.size = Vector2.one;
+            bc.enabled = inputEnabled;
         }
+
+        Vector3 fruitLocalScale = GetCompensatedFruitLocalScale();
+
+        // 3. Crear mitad superior (Fruta más pequeña)
+        CreateFruitHalf("TopHalf", new Vector3(0f, 0.25f, -0.1f), fruitLocalScale, leftSprite);
+
+        // 4. Crear mitad inferior (Fruta más pequeña)
+        CreateFruitHalf("BottomHalf", new Vector3(0f, -0.25f, -0.1f), fruitLocalScale, rightSprite);
     }
 
     /// <summary>
-    /// Actualiza el sprite según los valores de los lados.
-    /// Actualmente muestra el sprite del lado A (puedes extenderlo para mostrar ambos).
+    /// La ficha padre es rectangular (típicamente X=0.5, Y=1). Los hijos heredan esa escala,
+    /// así que un localScale uniforme se ve aplastado en X. Invertimos la escala del padre
+    /// para que el tamaño mundial de la fruta sea cuadrado.
+    /// Ejemplo: padre (0.5, 1) → hijo (0.36, 0.18) → mundo (0.18, 0.18).
     /// </summary>
-    private void UpdateSprite()
+    private Vector3 GetCompensatedFruitLocalScale()
     {
-        if (spriteRenderer == null || fruitSprites == null) return;
+        const float desiredWorldSize = 0.18f;
+        Vector3 parentScale = transform.localScale;
+        float absX = Mathf.Max(Mathf.Abs(parentScale.x), 0.0001f);
+        float absY = Mathf.Max(Mathf.Abs(parentScale.y), 0.0001f);
+        return new Vector3(desiredWorldSize / absX, desiredWorldSize / absY, 1f);
+    }
 
-        int index = Mathf.Clamp(sideA, 0, fruitSprites.Length - 1);
-        spriteRenderer.sprite = fruitSprites[index];
-        // Opcional: cambiar nombre del GameObject para depuración
-        gameObject.name = $"Domino_{sideA}_{sideB}";
+    private void CreateFruitHalf(string name, Vector3 localPosition, Vector3 localScale, Sprite fruitSprite)
+    {
+        GameObject half = new GameObject(name);
+        half.transform.SetParent(this.transform);
+        half.transform.localPosition = localPosition;
+        half.transform.localRotation = Quaternion.identity;
+        half.transform.localScale = localScale;
+
+        SpriteRenderer sr = half.AddComponent<SpriteRenderer>();
+        sr.sprite = fruitSprite;
+        sr.sortingOrder = 1;
     }
 
     // ======================
     // Lógica de Comodín Combinatorio
     // ======================
-
-    /// <summary>
-    /// Determina si la ficha es un doble (comodín básico).
-    /// </summary>
+    public int SideA => sideA;
+    public int SideB => sideB;
     public bool IsDouble => sideA == sideB;
-
-    /// <summary>
-    /// Determina si la ficha contiene un 0 o un 6 (bono de riesgo).
-    /// </summary>
     public bool HasRiskValue => sideA == 0 || sideA == 6 || sideB == 0 || sideB == 6;
-
-    /// <summary>
-    /// Calcula el valor de jugada base (suma de los lados).
-    /// </summary>
     public int BasePlayValue => sideA + sideB;
 
-    /// <summary>
-    /// Calcula el valor final de la jugada aplicando las reglas del Comodín Combinatorio:
-    /// - Si es doble, el valor se multiplica por 2.
-    /// - Además, si contiene un 0 o un 6, se suma un bono de riesgo (por ejemplo, +3 puntos).
-    /// Puedes ajustar el bono según tu diseño de puntuación.
-    /// </summary>
+    public bool MatchesValue(int value) => sideA == value || sideB == value;
+
     public int GetCombinatorialPlayValue()
     {
         int value = BasePlayValue;
-        if (IsDouble)
-        {
-            value *= 2; // Doble multiplica el valor
-        }
-        if (HasRiskValue)
-        {
-            value += 3; // Bono de riesgo (ajustable)
-        }
+        if (IsDouble) value *= 2;
+        if (HasRiskValue) value += 3;
         return value;
     }
-
-    // ======================
-    // Métodos públicos para configurar los lados (usado por el generador o el pool)
-    // ======================
-    public void SetSides(int a, int b)
-    {
-        sideA = Mathf.Clamp(a, 0, 6);
-        sideB = Mathf.Clamp(b, 0, 6);
-        UpdateSprite();
-    }
-
-    // ======================
-    // Gizmos para depuración en editor (opcional)
-    // ======================
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 0.1f);
-        UnityEditor.Handles.Label(transform.position + Vector3.up * 0.3f,
-            $"{sideA}|{sideB} (Valor: {GetCombinatorialPlayValue()})");
-    }
-#endif
 }
