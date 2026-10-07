@@ -4,23 +4,18 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-/// <summary>
-/// Editor utility to set up the base domino prefab and the GameManager in the scene.
-/// </summary>
 public static class GameManagerSetup
 {
     [MenuItem("Domino/2. Configurar GameManager")]
     public static void SetupGameManager()
     {
-        // 1. Create Prefabs folder if it doesn't exist
         string prefabFolder = "Assets/Prefabs";
         if (!Directory.Exists(prefabFolder))
         {
             Directory.CreateDirectory(prefabFolder);
-            AssetDatabase.Refresh(); // Refrescar para que Unity detecte la carpeta
+            AssetDatabase.Refresh();
         }
 
-        // 2. Create temporary FichaBase GameObject
         GameObject fichaBase = new GameObject("FichaBase");
         fichaBase.AddComponent<SpriteRenderer>();
         fichaBase.AddComponent<Rigidbody2D>();
@@ -28,14 +23,11 @@ public static class GameManagerSetup
         fichaBase.AddComponent<DominoPiece>();
         fichaBase.transform.localScale = new Vector3(0.5f, 1f, 1f);
 
-        // 3. Save as prefab
         string prefabPath = prefabFolder + "/FichaBase.prefab";
         PrefabUtility.SaveAsPrefabAsset(fichaBase, prefabPath);
 
-        // 4. Destroy the temporary object (Requiere Object. porque es una clase estática)
         Object.DestroyImmediate(fichaBase);
 
-        // 5. Create (or recreate) GameManager in the scene
         GameObject existingGM = GameObject.Find("GameManager");
         if (existingGM != null)
         {
@@ -43,12 +35,10 @@ public static class GameManagerSetup
         }
         GameObject gameManager = new GameObject("GameManager");
 
-        // 6. Add required components
         gameManager.AddComponent<CasinoTableManager>();
         gameManager.AddComponent<DynamicUIManager>();
         gameManager.AddComponent<DominoSet>();
 
-        // 7. Assign the prefab to DominoSet's dominoPrefab field
         DominoSet dominoSet = gameManager.GetComponent<DominoSet>();
         if (dominoSet != null)
         {
@@ -57,18 +47,9 @@ public static class GameManagerSetup
             {
                 dominoSet.dominoPrefab = prefab;
             }
-            else
-            {
-                Debug.LogError("[GameManagerSetup] Failed to load prefab at " + prefabPath);
-            }
-        }
-        else
-        {
-            Debug.LogError("[GameManagerSetup] DominoSet component not found on GameManager.");
         }
 
-        // Mark scene as dirty to save changes
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-        Debug.Log("[GameManagerSetup] GameManager configurado correctamente.");
+        Debug.Log("[GameManagerSetup] GameManager y Prefab configurados correctamente.");
     }
 }
