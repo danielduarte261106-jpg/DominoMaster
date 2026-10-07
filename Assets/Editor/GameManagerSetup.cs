@@ -17,6 +17,7 @@ public static class GameManagerSetup
         if (!Directory.Exists(prefabFolder))
         {
             Directory.CreateDirectory(prefabFolder);
+            AssetDatabase.Refresh(); // Refrescar para que Unity detecte la carpeta
         }
 
         // 2. Create temporary FichaBase GameObject
@@ -28,17 +29,17 @@ public static class GameManagerSetup
         fichaBase.transform.localScale = new Vector3(0.5f, 1f, 1f);
 
         // 3. Save as prefab
-        string prefabPath = Path.Combine(prefabFolder, "FichaBase.prefab");
+        string prefabPath = prefabFolder + "/FichaBase.prefab";
         PrefabUtility.SaveAsPrefabAsset(fichaBase, prefabPath);
 
-        // 4. Destroy the temporary object
-        DestroyImmediate(fichaBase);
+        // 4. Destroy the temporary object (Requiere Object. porque es una clase estática)
+        Object.DestroyImmediate(fichaBase);
 
         // 5. Create (or recreate) GameManager in the scene
         GameObject existingGM = GameObject.Find("GameManager");
         if (existingGM != null)
         {
-            DestroyImmediate(existingGM);
+            Object.DestroyImmediate(existingGM);
         }
         GameObject gameManager = new GameObject("GameManager");
 
