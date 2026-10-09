@@ -45,14 +45,37 @@ public class DynamicUIManager : MonoBehaviour
     private Dictionary<int, Sprite> playerSprites = new Dictionary<int, Sprite>();
     #endregion
 
-    [Header("Núcleo de partida (bajo acoplamiento)")]
+    [Header("Nucleo de partida (bajo acoplamiento)")]
     [SerializeField] private MatchController matchController;
     [SerializeField] private Text scoreLabel;
+    [SerializeField] private Text turnLabel;   // (opcional) muestra de quien es el turno
+
+    [Header("Panel de eleccion de extremo (opcional)")]
+    [Tooltip("Asigna el EndSelectionUI de escena. Si esta vacio se crea en runtime.")]
+    [SerializeField] private EndSelectionUI endSelectionUI;
 
     private const float PlayedPieceSpacing = 0.65f;
     private static readonly Color PlayedTint = new Color(0.82f, 0.82f, 0.82f, 0.9f);
 
     #region Initialization
+    private void Awake()
+    {
+        // Limpieza automática de textos heredados o círculos que ensucien la mesa
+        for (int i = 1; i <= 4; i++)
+        {
+            var strayText = GameObject.Find($"PlayerName_Jugador {i}");
+            if (strayText != null) Destroy(strayText);
+        }
+
+        foreach (var t in FindObjectsByType<Transform>(FindObjectsSortMode.None))
+        {
+            if (t != null && (t.name.StartsWith("Seat_") || t.name.StartsWith("SeatCircle_")))
+            {
+                t.gameObject.SetActive(false);
+            }
+        }
+    }
+
     private void Start()
     {
         if (playerAvatarLeft != null) playerAvatarLeft.gameObject.SetActive(true);
@@ -86,11 +109,14 @@ public class DynamicUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (matchController == null)
-            return;
+        if (matchController == null) return;
 
-        matchController.OnScoreUpdated -= HandleScoreUpdated;
-        matchController.OnPiecePlayed -= HandlePiecePlayed;
+        matchController.OnScoreUpdated      -= HandleScoreUpdated;
+        matchController.OnPiecePlayed       -= HandlePiecePlayed;
+        matchController.OnEndAmbiguity      -= HandleAmbiguityStarted;
+        matchController.OnAmbiguityResolved -= HandleAmbiguityEnded;
+        matchController.OnTurnChanged       -= HandleTurnChanged;
+        matchController.OnMatchOver         -= HandleMatchOver;
     }
     #endregion
 
@@ -102,18 +128,66 @@ public class DynamicUIManager : MonoBehaviour
 
         matchController = GetComponent<MatchController>();
         if (matchController == null)
-            matchController = FindFirstObjectByType<MatchController>();
+            matchController = FindAnyObjectByType<MatchController>();
         if (matchController == null)
             matchController = gameObject.AddComponent<MatchController>();
     }
 
     private void SubscribeToMatchEvents()
     {
-        if (matchController == null)
-            return;
+        if (matchController == null) return;
 
-        matchController.OnScoreUpdated += HandleScoreUpdated;
-        matchController.OnPiecePlayed += HandlePiecePlayed;
+        matchController.OnScoreUpdated      += HandleScoreUpdated;
+        matchController.OnPiecePlayed       += HandlePiecePlayed;
+        matchController.OnEndAmbiguity      += HandleAmbiguityStarted;
+        matchController.OnAmbiguityResolved += HandleAmbiguityEnded;
+        matchController.OnTurnChanged       += HandleTurnChanged;
+        matchController.OnMatchOver         += HandleMatchOver;
+
+        if (endSelectionUI == null)
+            endSelectionUI = FindAnyObjectByType<EndSelectionUI>();
+    }
+
+    // ── Handlers de ambiguedad ────────────────────────────────────────────────
+    private void HandleAmbiguityStarted(DominoPiece piece, int leftEnd, int rightEnd)
+    {
+        if (endSelectionUI == null)
+            Debug.LogWarning("[DynamicUIManager] OnEndAmbiguity recibido pero no hay EndSelectionUI.");
+    }
+
+    private void HandleAmbiguityEnded()
+    {
+        // EndSelectionUI gestiona su propio panel; aqui podemos anadir efectos extra.
+    }
+
+    // ── Handlers de turno y fin de partida ─────────────────────────────────
+    private void HandleTurnChanged(int playerIndex, bool isAI)
+    {
+        if (turnLabel == null) return;
+        string who = isAI ? "IA" : "Tu";
+        turnLabel.text = $"Turno: J{playerIndex + 1} ({who})";
+    }
+
+    private void HandleMatchOver(int winnerIndex)
+    {
+        if (winnerIndex == -1)
+        {
+            // Tranca: mostrar panel de derrota con mensaje especial
+            if (defeatPanel != null)
+            {
+                defeatPanel.SetActive(true);
+                if (defeatLabel != null)
+                    defeatLabel.text = "Mesa trancada.\nGana quien tenga menos puntos.";
+            }
+        }
+        else if (winnerIndex == 0) // asumimos que J1 (index 0) es el jugador humano principal
+        {
+            ShowVictoryPanel();
+        }
+        else
+        {
+            ShowDefeatPanel();
+        }
     }
 
     private void HandleScoreUpdated(int playerIndex, int totalScore)
@@ -126,6 +200,7 @@ public class DynamicUIManager : MonoBehaviour
         if (piece == null)
             return;
 
+        piece.SetFaceDown(false);
         piece.SetPlayerInputEnabled(false);
         ApplyPlayedVisuals(piece);
         MovePieceToTableCenter(piece);
@@ -167,7 +242,7 @@ public class DynamicUIManager : MonoBehaviour
         if (scoreLabel != null)
             return;
 
-        Canvas canvas = FindFirstObjectByType<Canvas>();
+        Canvas canvas = FindAnyObjectByType<Canvas>();
         if (canvas == null)
         {
             GameObject canvasObj = new GameObject("HUDCanvas");

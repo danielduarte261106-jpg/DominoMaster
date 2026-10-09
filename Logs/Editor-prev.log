@@ -1,0 +1,929 @@
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 8392)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 16656)
+VBCSCompiler prewarm took 164.46 ms
+Built from '6000.6/staging' branch; Version is '6000.6.4f1 (12bfff696524) revision 1228799'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22621) ProfessionalEducation' Language: 'es' Physical Memory: 8073 MB
+BatchMode: 0, IsHumanControllingUs: 1, StartBugReporterOnCrash: 1, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-09T05:19:01Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-danie" at "2026-10-09T05:19:01.5637998Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 22856, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              7d9733e404f645cba39cd96c696cd8b9
+  Correlation Id:          0c2382eade62c4a89da1c9a203c9bff7
+  External correlation Id: 9206029881344967760
+  Machine Id:              EiMWufNqql4Cu9lCjz1EgRKmkeY=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-danie" (connect: 0.00s, validation: 0.01s, handshake: 0.40s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-danie-notifications" at "2026-10-09T05:19:01.9787039Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token rIK9-LPKN4...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 2476060034711-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.02
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.50s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Unity.exe
+-projectpath
+C:\Users\danie\OneDrive\Escritorio\DominoMaster
+-acceptSoftwareTermsForThisRunOnly
+-useHub
+-hubIPC
+-cloudEnvironment
+production
+-licensingIpc
+LicenseClient-danie
+-hubSessionId
+d6cf4364-51a8-4966-aed5-5675c3a8b8c8
+-accessToken
+rIK9-LPKN4Ez-7sX2Y8VoO1zunDQNeEzCyVIInOvK_A002f
+Successfully changed project path to: C:\Users\danie\OneDrive\Escritorio\DominoMaster
+C:/Users/danie/OneDrive/Escritorio/DominoMaster
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [8956]  Target information:
+
+Player connection [8956]  * "[IP] 10.2.0.2 [Port] 55504 [Flags] 2 [Guid] 1098378035 [EditorId] 1098378035 [Version] 1048832 [Id] WindowsEditor(7,Daniel) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [8956]  * "[IP] 192.168.68.103 [Port] 55504 [Flags] 2 [Guid] 1098378035 [EditorId] 1098378035 [Version] 1048832 [Id] WindowsEditor(7,Daniel) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [8956] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8956] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-20920" after 0.6 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: e3f603c9272d910e8488d8ba95e1e5de
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052576
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = C:/Users/danie/OneDrive/Escritorio/DominoMasterUnity Data Store running and initialised
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.4f1 (12bfff696524)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/danie/OneDrive/Escritorio/DominoMaster/Assets
+[D3D12 Device Filter] Vendor Name: Intel
+[D3D12 Device Filter] Device Name: Intel(R) HD Graphics 620
+[D3D12 Device Filter] Driver Version: 31.0.101.2125
+[D3D12 Device Filter] Feature Level: 12.1
+[D3D12 Device Filter] Graphics Memory: 4036 MB
+[D3D12 Device Filter] Processor Count: 4
+[D3D12 Device Filter] Device Type: Integrated
+[D3D12 Device Filter] D3D12 API denied by user filter: {"Processor Count Comparator": Less Than Or Equal To"Processor Count": "4", "Device Type:": Do Not Care}
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics 620 (ID=0x5916)
+    Vendor:   Intel
+    VRAM:     4036 MB
+    Driver:   31.0.101.2125
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56920
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.767124 seconds.
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  8.826 seconds
+Domain Reload Profiling: 15931ms
+	BeginReloadAssembly (1179ms)
+		CreateAndSetChildDomain (50ms)
+	RebuildCommonClasses (17ms)
+	RebuildNativeTypeToScriptingClass (702ms)
+	initialDomainReloadingComplete (1398ms)
+	LoadAllAssembliesAndSetupDomain (3805ms)
+		LoadAssemblies (1054ms)
+		TypeCache.Refresh (3515ms)
+			TypeCache.ScanAssembly (2841ms)
+		AnalyzeDomain (2ms)
+	FinalizeReload (8830ms)
+		SetupLoadedEditorAssemblies (0ms)
+			LogAssemblyErrors (4ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (453ms)
+			ProcessInitializeOnLoadAttributes (324ms)
+			ProcessInitializeOnLoadMethodAttributes (6061ms)
+			EditorAssembliesLoaded (3ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 43 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ide.rider@3.0.38 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.ide.rider@1f60b3138684)
+    com.unity.ide.visualstudio@2.0.26 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.ide.visualstudio@a99d56dec63f)
+  Built-in packages:
+    com.unity.ugui@2.6.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.ugui@0727b404f3a0)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.test-framework@1.8.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.test-framework@80f691d4262b)
+    com.unity.ext.nunit@2.1.0 (location: C:\Users\danie\OneDrive\Escritorio\DominoMaster\Library\PackageCache\com.unity.ext.nunit@0198eae3b53e)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.04 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/danie/OneDrive/Escritorio/DominoMaster
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\DotNetSdk\dotnet.exe "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/Users/danie/OneDrive/Escritorio/DominoMaster
+ExitCode: 4 Duration: 1s488ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[254/287    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (1.34 seconds), 2 items updated, 253 evaluated
+ExitCode: 0 Duration: 3s675ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/danie/OneDrive/Escritorio/DominoMaster
+ExitCode: 0 Duration: 6s16ms
+Finished compiling graph: 290 nodes, 2871 flattened edges (2639 ToBuild, 24 ToUse), maximum node priority 167
+[205/287    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
+[254/287    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[279/287    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Scripts\DynamicUIManager.cs(111,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\DynamicUIManager.cs(128,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\EliteAIController.cs(31,50): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+
+Assets\Scripts\DominoPiece.cs(36,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\DominoPiece.cs(52,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\EndSelectionUI.cs(116,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\DynamicUIManager.cs(195,25): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\Scripts\EliteAIController.cs(50,14): warning CS0219: The variable 'puedeTrancarMesa' is assigned but its value is never used
+
+Assets\Scripts\CasinoTableManager.cs(93,36): warning CS0414: The field 'CasinoTableManager.cameraShakeMagnitude' is assigned but its value is never used
+
+Assets\Scripts\CasinoTableManager.cs(92,36): warning CS0414: The field 'CasinoTableManager.cameraShakeDuration' is assigned but its value is never used
+
+Assets\Scripts\DynamicUIManager.cs(35,19): warning CS0414: The field 'DynamicUIManager.notificationTimer' is assigned but its value is never used
+[280/287    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 148 defines and 295 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[281/287    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[282/287    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[283/287    4s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets\Editor\ProSceneBuilder.cs(63,98): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\Editor\ProSceneBuilder.cs(63,32): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+[284/287    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 146 defines and 307 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[285/287    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[286/287    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (5.93 seconds), 10 items updated, 287 evaluated
+Assets\Scripts\DynamicUIManager.cs(111,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\DynamicUIManager.cs(128,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\EliteAIController.cs(31,50): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindAnyObjectByType instead.'
+Assets\Scripts\DominoPiece.cs(36,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\DominoPiece.cs(52,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\EndSelectionUI.cs(116,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\DynamicUIManager.cs(195,25): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\Scripts\EliteAIController.cs(50,14): warning CS0219: The variable 'puedeTrancarMesa' is assigned but its value is never used
+Assets\Scripts\CasinoTableManager.cs(93,36): warning CS0414: The field 'CasinoTableManager.cameraShakeMagnitude' is assigned but its value is never used
+Assets\Scripts\CasinoTableManager.cs(92,36): warning CS0414: The field 'CasinoTableManager.cameraShakeDuration' is assigned but its value is never used
+Assets\Scripts\DynamicUIManager.cs(35,19): warning CS0414: The field 'DynamicUIManager.notificationTimer' is assigned but its value is never used
+Assets\Editor\ProSceneBuilder.cs(63,98): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\Editor\ProSceneBuilder.cs(63,32): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+AssetDatabase: script compilation time: 13.774731s
+Begin MonoManager ReloadAssembly
+Total cache size 111133184
+Total cache size after purge 111133184, took 00:00:00.7133411
+Native extension for WindowsStandalone target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  4.725 seconds
+Domain Reload Profiling: 7811ms
+	BeginReloadAssembly (802ms)
+		DisableScriptedObjects (97ms)
+		CreateAndSetChildDomain (158ms)
+	RebuildCommonClasses (29ms)
+	RebuildNativeTypeToScriptingClass (52ms)
+	initialDomainReloadingComplete (118ms)
+	LoadAllAssembliesAndSetupDomain (2081ms)
+		LoadAssemblies (2063ms)
+		TypeCache.Refresh (54ms)
+			TypeCache.ScanAssembly (41ms)
+		AnalyzeDomain (38ms)
+			BuildScriptInfoCaches (29ms)
+			ResolveRequiredComponents (5ms)
+	FinalizeReload (4728ms)
+		SetupLoadedEditorAssemblies (0ms)
+			LogAssemblyErrors (4ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (334ms)
+			ProcessInitializeOnLoadAttributes (3318ms)
+			ProcessInitializeOnLoadMethodAttributes (98ms)
+			AfterProcessingInitializeOnLoad (13ms)
+			EditorAssembliesLoaded (150ms)
+		AwakeInstancesAfterBackupRestoration (114ms)
+Starting new worker id: 0 with log in C:/Users/danie/OneDrive/Escritorio/DominoMaster/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=e89f47d020065d44484f4d5e970b813f): Total: 28.254 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=8841 ms
+		Asset DB Callback time: managed=1016 ms, native=1257 ms
+		Scripting: domain reloads=1, domain reload time=3323 ms, compile time=13781 ms, other=32 ms
+		Project Asset Count: scripts=264, non-scripts=112
+		Asset File Changes: new=1, changed=4, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 65.089ms
+	ApplyChangesToAssetFolders: 1.508ms
+	Scan: 121.349ms
+	Collect global state as custom dependencies: 49.877ms
+	OnSourceAssetsModified: 2.739ms
+	CategorizeScriptCompilationAssets: 364.393ms
+	ProcessAssetsWithTransientArtifactChanges: 37.798ms
+	CategorizeAssets: 42.975ms
+	CompileScripts: 13781.115ms
+	ImportOutOfDateAssets: 4768.628ms (4734.249ms without children)
+		UnloadImportedAssets: 0.214ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.250ms
+		ImportSchedulerStart: 33.909ms
+	PostProcessAllAssets: 761.168ms
+		VCAutoAddAssetPostprocess 4.860ms
+		WindowTitlePostprocess 0.363ms
+		VersionControlSettings.HiddenFilePostprocess 0.180ms
+		PostProcessCallbackCreateDeferredMaterials 0.123ms
+		MonoPostProcessAllAssets: 750.967ms
+			SyncVS.PostprocessSyncProject 553.390ms
+			AssetPostprocessor.OnPostprocessAllAssets 62.584ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 25.624ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 24.910ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 20.643ms
+			AssetChangedListener.OnPostprocessAllAssets 16.739ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 4.759ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 2.849ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.974ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 1.523ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 1.392ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.846ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.760ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.754ms
+			AssetEvents.OnPostprocessAllAssets 0.662ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.493ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.471ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.448ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.391ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.377ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.332ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.311ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.198ms
+	PostAssetChangesProfiler: 1448.912ms
+	UnloadStreamsBegin: 3.785ms
+	Untracked: 6757.741ms
+
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Scanning for USB devices : 3.777ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-DominoMaster
+[Licensing::Client] Successfully resolved entitlement details
+Unloading 11 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scene/MesaCasino.unity'
+	Deserialize:            3273.164 ms
+	Integration:            1772.700 ms
+	Integration of assets:  249.608 ms
+	Thread Wait Time:       -0.717 ms
+	Total Operation Time:   5294.755 ms
+Unloading 878 unused Assets / (0.5 MB). Loaded Objects now: 1674.
+Memory consumption went from 252.1 MB to 251.5 MB.
+Total: 19.441200 ms (FindLiveObjects: 0.835100 ms CreateObjectMapping: 0.145900 ms MarkObjects: 17.020800 ms  DeleteObjects: 0.934300 ms)
+
+[LAYOUT] About to load UserSettings\Layouts\default-6000.dwlt, keepMainWindow=False
+Worker ready: AssetImportWorkerHW0 0
+[LAYOUT] About to save layout C:\Users\danie\OneDrive\Escritorio\DominoMaster\UserSettings\Layouts\default-6000.dwlt
+[LAYOUT] About to save layout C:/Users/danie/AppData/Roaming/Unity/Editor-5.x/Preferences\Layouts\current\default-6000.dwlt
+[MODES] ModeService[default].InitializeCurrentMode
+[MODES] ModeService[default].RaiseModeChanged(default, default)
+This project uses Input Manager, which is marked for deprecation. To manage input in your project, use the <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">Input System package</a> instead.
+<RI> Initializing input.
+<RI> Input initialized.
+[Project] Loading completed in 87.166 seconds
+	Project init time: 				76.465 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.606 seconds
+		Asset Database init time: 		1.471 seconds
+		Global illumination init time: 	0.042 seconds
+		Assemblies load time: 			29.121 seconds
+		Unity extensions init time: 	0.010 seconds
+		Asset Database refresh time: 	28.619 seconds
+	Scene opening time: 			10.316 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791523228529,"processId":20920,"projectLoad":87.1659466,"projectInit":76.4648098,"templateInit":0.0,"packageManagerInit":0.6057856,"assetDatabaseInit":1.4710327,"globalIlluminationInit":0.0424998,"assembliesLoad":29.1214088,"unityExtensionsInit":0.010235,"assetDatabaseRefresh":28.6193844,"sceneOpening":10.3159069}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791523228529,"processId":20920,"editorVersion":"6000.6.4f1 (12bfff696524)","branch":"6000.6/staging","buildType":"Release","platform":"Windows"}
+Asset Pipeline Refresh (id=37e53d64911aa5945ae89e64e8b430cf): Total: 0.159 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Successfully resolved entitlement details
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+Created GICache directory at C:/Users/danie/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.041s, timestamps: [87.412 - 87.453]
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "rIK9-LPK"... (expires: 2026-10-09T07:18:06Z)
+[Worker0] Imported GUID: dec2305c1d65a8f47a703e712a540c88 - Path: Assets/Scripts/Core/MatchController.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '8cf799be6872f2a9d6e1243120fa5a47') in 0.6102372 seconds
+[Worker0] Imported GUID: dc731e82fe47a64478afb46a05730ca1 - Path: Assets/Scene/MesaCasino.unity - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'e7fc18d5d04f8b49d17b3cc31dc51f0f') in 0.1941617 seconds
+[Worker0] Imported GUID: f95188324681f0343823049c1d047844 - Path: Assets/Scripts/DominoSet.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '52e1098d8815c2fa2233987e60dca68a') in 0.0042386 seconds
+[Worker0] Imported GUID: dc7b922fb9622c64c8ce4fc567431961 - Path: Assets/Scene - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '2519cc86b1e02d6247baccc6f7b660b8') in 0.0064354 seconds
+[Worker0] Imported GUID: bafafcf5aef91e24e94ecef44e098f1a - Path: Assets/Scripts/Core - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '245f6907809504962a5b4c873fa154aa') in 0.0050334 seconds
+[Worker0] Imported GUID: db5a09d25f71fc94e9878e13c5adfc5d - Path: Assets/Scripts/DynamicUIManager.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '0aa7644384d6447dea7ddc83fb6a64a8') in 0.0566338 seconds
+[Worker0] Imported GUID: 3dcd1f133fe02a249aaac6a4c0c9202e - Path: Assets/Scripts/EndSelectionUI.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '882fac853dfe47acc17d720c54365a5a') in 0.0052374 seconds
+[Worker0] Imported GUID: 330b18446e57c3f4dbf4b1178ec68e31 - Path: Assets/Scripts/Core/MatchState.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'bb185299c6e3722f3eea6c103ed21202') in 0.0138767 seconds
+[Worker0] Imported GUID: 61cfcee0728245246bbd87471edcae38 - Path: Assets/Editor/GameManagerSetup.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'e4f73a4db6f258ef21f79cdc4bf10f26') in 0.0069932 seconds
+[Worker0] Imported GUID: 16ede243628a7e54caa1a78683798001 - Path: Assets/Scripts/Core/TableInputManager.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '058196ffd0489c5a54b068852124fb70') in 0.0118271 seconds
+[Worker0] Imported GUID: f3c5ddaf9bcf4e442927a8a329a089e4 - Path: Assets/Scripts/DominoPiece.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'ab68bd1ed940433ce3d3509dd86fccdc') in 0.0096867 seconds
+[Licensing::Client] Successfully resolved entitlement details
+Asset Pipeline Refresh (id=4879342dc79d1a54a8b9d352ca367712): Total: 0.008 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[ProSceneBuilder] Auto-carga preparada. 7 sprites de frutas copiados a Assets/Resources/Frutas/
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+ProSceneBuilder:PrepareFruitSpriteLoad () (at Assets/Editor/ProSceneBuilder.cs:302)
+ProSceneBuilder:BuildCasinoProScene () (at Assets/Editor/ProSceneBuilder.cs:47)
+
+(Filename: Assets/Editor/ProSceneBuilder.cs Line: 302)
+
+[ProSceneBuilder] Escena de Casino Pro construida exitosamente.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+ProSceneBuilder:BuildCasinoProScene () (at Assets/Editor/ProSceneBuilder.cs:56)
+
+(Filename: Assets/Editor/ProSceneBuilder.cs Line: 56)
+
+Importing 'GUID: 5b31f1734b8c93148a7039ea1a566ab5 - Path: Assets/Prefabs/FichaBase.prefab' with importer (PrefabImporter)
+Imported 'GUID: 5b31f1734b8c93148a7039ea1a566ab5' -> (Import Result ID: '3a13bca98820baacd2e57d433c4dd621') in 0.019 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8f2a3e15f7969e43f395cbacc4c763da DependenciesID=e17db7b5c630d9da57dfdbfe13dda6de StaticDependenciesID=e46f9a0025c20d82cef44c9f3a7fb569 
+Asset Pipeline Refresh (id=eaf1b1b32f747f84481081f4ac628a69): Total: 0.065 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[GameManagerSetup] GameManager y Prefab configurados correctamente.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GameManagerSetup:SetupGameManager () (at Assets/Editor/GameManagerSetup.cs:55)
+
+(Filename: Assets/Editor/GameManagerSetup.cs Line: 55)
+
+[Worker0] Imported GUID: 5b31f1734b8c93148a7039ea1a566ab5 - Path: Assets/Prefabs/FichaBase.prefab - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'b774e0b33678d17d5bc36f12c656b078') in 0.1759434 seconds
+TrimDiskCacheJob: Current cache size 0mb
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  2.668 seconds
+Domain Reload Profiling: 4349ms
+	BeginReloadAssembly (1193ms)
+		DisableScriptedObjects (299ms)
+		CreateAndSetChildDomain (425ms)
+	RebuildCommonClasses (28ms)
+	RebuildNativeTypeToScriptingClass (55ms)
+	initialDomainReloadingComplete (103ms)
+	LoadAllAssembliesAndSetupDomain (299ms)
+		LoadAssemblies (363ms)
+		TypeCache.Refresh (6ms)
+		AnalyzeDomain (12ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (2670ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (204ms)
+			ProcessInitializeOnLoadAttributes (178ms)
+			ProcessInitializeOnLoadMethodAttributes (118ms)
+			AfterProcessingInitializeOnLoad (11ms)
+		AwakeInstancesAfterBackupRestoration (1317ms)
+No restricted APIs configured; Validation skipped.
+Checking 2 assemblies for restricted APIs found 0 usage(s) in 12 ms
+
+Asset Pipeline Refresh (id=9342c4d7372230a4f9f43a7b83e00f53): Total: 5.510 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2803 ms
+		Asset DB Callback time: managed=515 ms, native=94 ms
+		Scripting: domain reloads=1, domain reload time=2091 ms, compile time=5 ms, other=0 ms
+		Project Asset Count: scripts=264, non-scripts=112
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 3.321ms
+	ApplyChangesToAssetFolders: 0.880ms
+	Collect global state as custom dependencies: 1.631ms
+	ProcessAssetsWithTransientArtifactChanges: 41.359ms
+	CategorizeAssets: 3.327ms
+	CompileScripts: 5.423ms
+	ImportOutOfDateAssets: 2675.131ms (2671.039ms without children)
+		UnloadImportedAssets: 3.498ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.145ms
+		ImportSchedulerStart: 0.438ms
+	PostProcessAllAssets: 599.817ms
+		PostProcessCallbackCreateDeferredMaterials 16.095ms
+		PostprocessAssetsUpdateCachedIcon 5.520ms
+		AssemblyValidation.PostprocessAllAssets 4.257ms
+		RaytracingShaderImportPostprocess 2.896ms
+		SpeedTreeImporter.PostprocessAllAssets 2.611ms
+		ShaderAssetModifiedCallback 1.760ms
+		ComputeShaderImportPostprocess 1.625ms
+		BlockShaderImporter.PostprocessAllAssets 1.073ms
+		LocalizationDatabase.AssetDatabasePostprocessCallback 0.486ms
+		MonoPostProcessAllAssets: 509.033ms
+			SyncVS.PostprocessSyncProject 315.398ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 79.537ms
+			AssetPostprocessor.OnPostprocessAllAssets 24.089ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 22.599ms
+			AssetChangedListener.OnPostprocessAllAssets 10.242ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 9.331ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 4.489ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 4.478ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 1.368ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 1.120ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 1.084ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 1.018ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.856ms
+			AssetEvents.OnPostprocessAllAssets 0.829ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.817ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.667ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.661ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.470ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.394ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.357ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.329ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.310ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.266ms
+	PostAssetChangesProfiler: 8.941ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.095ms
+	UnloadStreamsBegin: 2.971ms
+	Untracked: 2135.297ms
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            8.146 ms
+	Integration:            71.307 ms
+	Integration of assets:  0.172 ms
+	Thread Wait Time:       -0.112 ms
+	Total Operation Time:   79.513 ms
+¡Falta el Prefab del Dominó o los Sprites en el Inspector!
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+DominoSet:GenerateFullSet () (at Assets/Scripts/DominoSet.cs:26)
+DominoSet:Start () (at Assets/Scripts/DominoSet.cs:17)
+
+(Filename: Assets/Scripts/DominoSet.cs Line: 26)
+
+[Estado] Betting -> Betting
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager:Start () (at Assets/Scripts/CasinoTableManager.cs:100)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Licensing::Client] Successfully resolved entitlement details
+[Estado] Betting -> Setup
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:176)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Setup -> Playing
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:180)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Playing -> RoundEnded
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+Ronda terminada.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:191)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:165)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 191)
+
+[Estado] RoundEnded -> Betting
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:194)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Betting -> Setup
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:176)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Setup -> Playing
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:180)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Playing -> RoundEnded
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+Ronda terminada.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:191)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:165)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 191)
+
+[Estado] RoundEnded -> Betting
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:194)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Betting -> Setup
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:176)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+[Estado] Setup -> Playing
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:180)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+Asset Pipeline Refresh (id=932fb371c3b78c24eaf98186d8006fda): Total: 0.049 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[Estado] Playing -> RoundEnded
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+Ronda terminada.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:191)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:165)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:184)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 191)
+
+[Estado] RoundEnded -> Betting
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+CasinoTableManager:ChangeGameState (CasinoGameState) (at Assets/Scripts/CasinoTableManager.cs:163)
+CasinoTableManager/<SwitchToNextPhase>d__34:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:207)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+UnityEngine.MonoBehaviour:StartCoroutineManaged2 (System.Collections.IEnumerator)
+UnityEngine.MonoBehaviour:StartCoroutine (System.Collections.IEnumerator)
+CasinoTableManager/<GamePhaseTransitionCoroutine>d__33:MoveNext () (at Assets/Scripts/CasinoTableManager.cs:194)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: Assets/Scripts/CasinoTableManager.cs Line: 163)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            10.904 ms
+	Integration:            25.117 ms
+	Integration of assets:  0.380 ms
+	Thread Wait Time:       -0.017 ms
+	Total Operation Time:   36.384 ms
+Unloading 775 unused Assets / (18.0 MB). Loaded Objects now: 2756.
+Memory consumption went from 406.5 MB to 388.5 MB.
+Total: 38.088500 ms (FindLiveObjects: 0.587000 ms CreateObjectMapping: 0.226600 ms MarkObjects: 27.123100 ms  DeleteObjects: 9.906200 ms)
+
+[Licensing::Client] Successfully resolved entitlement details
+Importing 'GUID: dc731e82fe47a64478afb46a05730ca1 - Path: Assets/Scene/MesaCasino.unity' with importer (DefaultImporter)
+Imported 'GUID: dc731e82fe47a64478afb46a05730ca1' -> (Import Result ID: 'f35c70906af123d3895c65881166e912') in 0.018 seconds [static dependencies only]. Details - ImportResultOutputID=4ec15d3f11dea9018aecf94ccc705706 DependenciesID=fa0ec978d63110eaf606d1187bf8c0a1 StaticDependenciesID=56ee3f392e95a1ab461c239a64b9b7f4 
+Asset Pipeline Refresh (id=02ecbc265bef93b47a7db04973d323b5): Total: 0.058 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+MonoPathRemapper: Attempts to remap: 8706; Successful remaps: 2012
+Serialized file version minimum: 23, current 23
+[LAYOUT] About to save layout C:\Users\danie\OneDrive\Escritorio\DominoMaster\UserSettings\Layouts\default-6000.dwlt
+[LAYOUT] About to save layout C:/Users/danie/AppData/Roaming/Unity/Editor-5.x/Preferences\Layouts\current\default-6000.dwlt
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-danie-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-danie channel disconnected successfully.
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+abort_threads: Failed aborting id: 0000000000004454, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000000CD8, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000004B70, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000004454, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000000CD8, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 0000000000004B70, mono_thread_manage will ignore it
+
+debugger-agent: Unable to listen on 3712
+VBCSCompilerPreWarmer: requested VBCSCompiler shutdown
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791523315394,"processId":20920,"allocatedMemory":11994391,"memoryLabels":[{"Default":187319},{"Permanent":15516},{"NewDelete":71977},{"Thread":4193384},{"Manager":18781},{"VertexData":8},{"Geometry":816},{"Shader":852798},{"Material":132},{"TextureCache":1064},{"GfxDevice":55968},{"Animation":952},{"Audio":896},{"FreeType":8},{"FontEngine":736},{"Physics":1970},{"Physics2D":16},{"Serialization":16704},{"Input":42840},{"JobScheduler":256},{"TextLib":10582},{"Mono":48},{"ScriptingNativeRuntime":1259880},{"BaseObject":53488},{"Resource":1444},{"Renderer":2504},{"Transform":4685},{"File":10354},{"WebCam":616},{"Culling":32},{"Terrain":11442},{"Wind":24},{"STL":40},{"String":768256},{"StaticString":3808},{"Utility":2673421},{"Curl":48},{"PoolAlloc":2168},{"AI":80},{"TypeTree":14869},{"ScriptManager":18984},{"CodeReload":448},{"RuntimeInitializeOnLoadManager":64},{"Sprites":102},{"SpriteAtlas":120},{"GI":7816},{"Director":8296},{"CloudService":7728},{"WebRequest":7547},{"VR":49650},{"SceneManager":608},{"Video":208},{"LazyScriptCache":32},{"Camera":2073},{"Secure":265},{"SerializationCache":9256},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":768},{"Hierarchy":1188},{"UIElements":40},{"CoreStats":14456},{"Identifiers":7152},{"Gui":267622},{"EditorUtility":210233},{"VersionControl":8},{"Undo":931},{"AssetDatabase":686490},{"AssetImporter":40},{"EditorGi":328},{"UnityConnect":36881},{"Upm":1988},{"UpmDiagnostics":8},{"AssetCompliance":96},{"DrivenProperties":72},{"LocalIPC":260},{"ProfilerEditor":9746},{"CoreBusinessMetrics":3600},{"Windowing":456},{"Licensing":12805},{"AssetReference":32},{"IPCStream":32}]}

@@ -1,0 +1,210 @@
+================================================================================
+                    DOMINOMASTER - ESTADO GENERAL DEL PROYECTO
+                     Guía de Arquitectura, Avances y Roadmap
+================================================================================
+Fecha de actualización: 09 de Octubre de 2026
+Motor de desarrollo: Unity 6 (6000.6.4f1)
+Plataforma objetivo: PC (Steam) / Móvil (Play Store)
+Autor / Equipo: DominoMaster Team
+================================================================================
+
+1. VISIÓN GENERAL Y CONCEPTO DEL JUEGO
+--------------------------------------------------------------------------------
+DominoMaster es una reinterpretación moderna del clásico juego de dominó con
+ambientación y mecánicas de Casino de lujo, donde las pintas clásicas son 
+reemplazadas por un set temático de frutas vibrantes.
+
+Jerarquía de Frutas (valores del 0 al 6):
+  - 0: Semilla (seed)
+  - 1: Uva (grape)
+  - 2: Fresa (strawberry)
+  - 3: Lima (lime)
+  - 4: Manzana (apple)
+  - 5: Piña (pineapple)
+  - 6: Sandía (watermelon)
+
+Mecánica Central Única ("Comodín Combinatorio"):
+  - Las fichas dobles multiplican su valor base por 2:
+      Valor = (LadoA + LadoB) * 2
+  - Las fichas con valores de riesgo en sus extremos (0 o 6) otorgan un bono
+    automático de +3 puntos al ser jugadas:
+      Si contiene 0 o 6 -> Puntos += 3
+
+
+================================================================================
+2. ARQUITECTURA DEL SOFTWARE (MVC DESACOPLADO / OBSERVER)
+================================================================================
+El proyecto sigue una separación estricta entre la lógica matemática pura 
+(Dominio) y los componentes visuales de Unity (Presentación). Esto garantiza alta
+testabilidad, cero acoplamiento innecesario y facilidad para extender el juego a 
+multijugador o añadir pruebas unitarias.
+
+A. CAPA DE DOMINIO PURO (C# Estándar, Sin MonoBehaviour, Sin dependencias de Unity)
+   Ubicación: Assets/Scripts/Core/
+
+   1. MatchState.cs
+      - Rastrea los extremos libres de la mesa (LeftEnd y RightEnd como int?).
+      - Valida si una ficha encaja legalmente en la mesa (CanPlace).
+      - Detecta ambigüedad de colocación (None, LeftOnly, RightOnly, BothEnds).
+      - Maneja la colocación y rotación lógica de la primera ficha y fichas siguientes.
+
+   2. TurnStateMachine.cs
+      - Máquina de estados finita de turnos (WaitingForInput, ResolvingAmbiguity, 
+        CommittingPlay, PlayerPassed, GameOver).
+      - Gestiona la rotación de turnos entre 2 y 4 jugadores.
+      - Discrimina de forma nativa entre jugadores humanos y jugadores IA.
+      - Detecta automáticamente la "Tranca" (cuando todos los jugadores pasan
+        consecutivamente).
+
+   3. PlayerHand.cs
+      - Modelo en memoria de la mano de cada jugador.
+      - Gestiona la lista de fichas en posesión.
+      - Calcula el valor residual en mano (ResiduaValue) para desempatar en tranca.
+      - Heurística para obtener la mejor ficha jugable (GetBestPlayable).
+
+   4. BettingSystem.cs
+      - Motor de apuestas de casino: fichas de jugadores, bote acumulado (Pot) y
+        fase de cierre de apuestas (LockBets).
+      - Reparto del bote al ganador de la ronda (AwardPot) o división equitativa
+        en caso de empate por tranca (AwardPotSplit).
+      - Detección de bancarrota (OnPlayerBroke).
+
+
+B. CAPA DE CONTROLADORES Y ORQUESTACIÓN (MonoBehaviour)
+   Ubicación: Assets/Scripts/ y Assets/Scripts/Core/
+
+   1. MatchController.cs
+      - Orquestador principal de la partida.
+      - Conecta MatchState con TurnStateMachine y dispara eventos Observer:
+        OnPiecePlayed, OnScoreUpdated, OnEndAmbiguity, OnTurnChanged, OnMatchOver.
+      - AUTO-RESOLUCIÓN DE IA: Si la IA juega una ficha con ambigüedad de extremo,
+        la resuelve automáticamente sin congelar el flujo ni pedir interacción al
+        usuario humano.
+
+   2. HandManager.cs
+      - Gestiona el reparto de 7 fichas por jugador desde el set completo.
+      - Posiciona visualmente las 7 fichas del jugador humano en la parte inferior
+        con espaciado amplio y cómodo (spacing >= 1.30f).
+      - Oculta las fichas de los oponentes controlados por la IA fuera de pantalla.
+      - Notifica victoria inmediata cuando la mano de un jugador queda vacía.
+
+   3. DominoSet.cs
+      - Instancia las 28 fichas del set completo combinando las frutas del 0 al 6.
+      - Inyecta los sprites de frutas correspondientes.
+      - RESERVA LATERAL BOCA ABAJO: Las fichas no repartidas (el pozo/boneyard)
+        se apilan ordenadamente en el lateral izquierdo boca abajo (ocultando sus
+        frutas), manteniendo el centro del tapete 100% limpio para jugar.
+
+   4. DominoPiece.cs
+      - Componente físico y visual de cada ficha.
+      - Contiene BoxCollider2D, Rigidbody2D cinemático y detección de clic.
+      - Renderizado procedural de fondo blanco marfil con bordes oscuros y línea
+        divisoria central horizontal (aspecto realista de ficha de casino).
+      - Soporta modo boca abajo (SetFaceDown) para el pozo y la IA.
+
+   5. EliteAIController.cs
+      - Inteligencia artificial competitiva con tiempo de reflexión simulado.
+      - Prioriza jugadas que bloqueen al rival o maximicen el Comodín Combinatorio.
+      - Conectada como fuente de verdad con HandManager y MatchController.
+
+   6. GameSessionManager.cs
+      - Orquestador maestro del ciclo completo de casino:
+        Fase de apuestas -> Reparto de manos -> Juego de dominó -> Pago de bote ->
+        Resolución de tranca con desempate -> Siguiente ronda.
+
+
+C. CAPA DE PRESENTACIÓN E INTERFAZ (UI)
+   Ubicación: Assets/Scripts/
+
+   1. CasinoChipsUI.cs
+      - Visualización del bote acumulado en tiempo real.
+      - Saldo de fichas del jugador y de la IA.
+      - Botones de apuesta rápida (+10, +50, +100, All-in) y confirmación.
+      - Banner animado de felicitación al ganar el bote.
+
+   2. DynamicUIManager.cs
+      - Muestra el HUD de puntuación y el turno actual ("Turno: J1 (Tú)" / "IA").
+      - Paneles de Victoria, Derrota y Tranca.
+      - Auto-limpieza en runtime de textos obsoletos heredados de la escena.
+
+   3. EndSelectionUI.cs
+      - Panel modal emergente con botones "Izquierda", "Derecha" y "Cancelar"
+        que se abre únicamente cuando el jugador humano coloca una ficha válida
+        en ambos extremos.
+
+   4. AIVisualFeedback.cs
+      - Indicador visual animado (pulsación) cuando la IA está pensando.
+      - Destello y resalte de tamaño sobre la ficha jugada por la IA para brindar
+        claridad visual instantánea sobre el tapete.
+
+
+D. HERRAMIENTAS DE EDITOR AUTOMATIZADAS
+   Ubicación: Assets/Editor/
+
+   1. GameManagerSetup.cs
+      - Añade el menú en Unity: "Domino / Configurar Escena Casino Completa".
+      - Con un solo clic ajusta la cámara ortográfica (size = 5), tapete verde de
+        casino que llena la pantalla, prefab de fichas y carga en orden estricto
+        los 7 sprites de frutas desde Assets/Resources/Frutas/.
+
+
+================================================================================
+3. ERRORES Y BLOQUEOS QUE FUERON CORREGIDOS
+================================================================================
+Durante las últimas iteraciones se resolvieron los siguientes problemas críticos:
+  1. Error CS0104 (Ambigüedad entre UnityEngine.Random y System.Random):
+     Corregido en DominoSet.cs especificando UnityEngine.Random.Range.
+  2. Deprecaciones de Unity 6:
+     Actualizadas llamadas FindFirstObjectByType a FindAnyObjectByType en todos
+     los scripts del proyecto.
+  3. Congelamiento de IA en fichas con doble extremo:
+     Corregido en MatchController.cs para que la IA auto-resuelva su extremo sin
+     abrir el modal de la UI humana.
+  4. Fichas del mazo obstruyendo el centro del tapete:
+     Reubicadas ordenadamente en la reserva lateral y puestas boca abajo.
+  5. Fichas de la mano amontonadas:
+     Espaciado aumentado a >= 1.30f en HandManager.cs para separación óptima.
+  6. Textos viejos flotando en el Canvas:
+     Eliminados mediante rutina de limpieza en Awake() de DynamicUIManager.cs.
+
+
+================================================================================
+4. ROADMAP: COSAS PENDIENTES / PRÓXIMOS PASOS RECOMENDADOS
+================================================================================
+Para llevar el proyecto a calidad comercial lista para publicación, se 
+recomienda trabajar en los siguientes puntos:
+
+[ ] 1. MECÁNICA DE ROBO DEL POZO (DRAW / BONEYARD):
+    - Permitir hacer clic en las fichas boca abajo del pozo para robar cuando el
+      jugador no tenga jugada disponible (en modos de juego con robo permitido).
+
+[ ] 2. ANIMACIÓN DE COLOCACIÓN DE FICHAS (LERP / TWEEN):
+    - Animar el desplazamiento suave de la ficha desde la mano del jugador hasta
+      su extremo correspondiente en el centro de la mesa (actualmente se mueve de
+      forma instantánea).
+
+[ ] 3. SISTEMA DE AUDIO Y EFECTOS DE SONIDO (SFX & BGM):
+    - Sonido de impacto al chocar fichas de dominó ("clack" seco de resina).
+    - Sonido de monedas/fichas de casino al apostar y ganar el bote.
+    - Música de fondo de estilo Jazz/Lounge Casino relajante.
+    - Fanfarria de victoria y sonido de derrota.
+
+[ ] 4. MODO MULTIJUGADOR / MENÚ DE MODOS:
+    - Menú inicial para elegir entre:
+        a) 1 vs 1 (Jugador vs IA)
+        b) 4 Jugadores todos contra todos
+        c) Por Equipos (2 vs 2)
+        d) Multijugador en línea (Photon Fusion o Netcode for GameObjects).
+
+[ ] 5. PERSISTENCIA Y GUARDADO:
+    - Guardar el saldo de fichas del jugador, estadísticas de victorias/derrotas
+      y mejores comodines logrados usando PlayerPrefs o JSON local.
+
+[ ] 6. ARTE Y PULIDO DE AVATARES:
+    - Reemplazar los textos provisionales de avatares por ilustraciones de
+      personajes tipo casino (crupier, magnate, jugador experto, etc.) con marcos
+      dorados y estados de emoción.
+
+================================================================================
+FIN DEL DOCUMENTO
+================================================================================

@@ -1,17 +1,23 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 using System.IO;
 using System.Collections.Generic;
 
 /// <summary>
 /// Script maestro de Editor para la construcción automática de la escena de Casino Pro.
-/// Limpia la jerarquía, crea la cámara con post-procesado, la mesa, el Canvas escalable y prepara
+/// Limpia la jerarquía, crea la cámara, la mesa, el Canvas escalable y prepara
 /// la auto-carga de sprites desde la carpeta local de frutas.
 /// </summary>
 public static class ProSceneBuilder
 {
     private const string MENU_PATH = "Domino/Construir Casino Pro";
     private const string FRUITS_FOLDER_PATH = "C:/Users/danie/OneDrive/Escritorio/Frutas/";
+
+    // Variable de referencia al contenedor de la mesa (necesario para el scope)
+    private static GameObject tableContainer;
 
     [MenuItem(MENU_PATH)]
     public static void BuildCasinoProScene()
@@ -22,7 +28,7 @@ public static class ProSceneBuilder
         // 2. Crear la escena base
         CreateSceneAssets();
 
-        // 3. Crear la cámara con post-procesado básico
+        // 3. Crear la cámara principal (Sin Post-Procesado)
         CreateMainCamera();
 
         // 4. Crear la mesa de fieltro verde
@@ -41,18 +47,23 @@ public static class ProSceneBuilder
         PrepareFruitSpriteLoad();
 
         // 9. Guardar cambios
-        SceneView.lastActiveSceneView.Repaint();
-        EditorUtility.SetDirty(SceneUtility.GetActiveScene());
+        if (SceneView.lastActiveSceneView != null)
+        {
+            SceneView.lastActiveSceneView.Repaint();
+        }
+        
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("[ProSceneBuilder] Escena de Casino Pro construida exitosamente.");
     }
 
     private static void ClearHierarchy()
     {
         // Eliminar todos los GameObjects de la escena actual (excepto el AssetDatabase)
-        GameObject[] objects = FindObjectsOfType<GameObject>();
+        // Usamos FindObjectsByType para compatibilidad con Unity 6+
+        GameObject[] objects = Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (GameObject obj in objects)
         {
-            if (obj.name != "EditorOnlyCamera" && obj.hideFlags == HideFlags.None)
+            if (obj != null && obj.name != "EditorOnlyCamera" && obj.hideFlags == HideFlags.None)
             {
                 Undo.DestroyObjectImmediate(obj);
             }
@@ -83,43 +94,6 @@ public static class ProSceneBuilder
         cam.cullingMask = ~0; // Todas las capas
 
         Undo.RegisterCreatedObjectUndo(cameraObj, "Crear Main Camera");
-
-        // Post-procesado básico (usando el sistema de Post-Processing Stack)
-        GameObject postProcess = new GameObject("PostProcessVolume");
-        PostProcessVolume ppVolume = postProcess.AddComponent<PostProcessVolume>();
-        ppVolume.isGlobal = true;
-        ppVolume.priority = 100;
-        Undo.RegisterCreatedObjectUndo(postProcess, "Crear PostProcessVolume");
-
-        // Configurar efectos post-procesados
-        PostProcessProfile profile = ScriptableObject.CreateInstance<PostProcessProfile>();
-
-        // Bloom (brillo suave para ambiente de casino)
-        PostProcessLayer postProcessLayer = cameraObj.AddComponent<PostProcessLayer>();
-        postProcessLayer.profile = profile;
-
-        // Añadir efecto Bloom
-        var bloom = profile.GetSettings<Bloom>();
-        bloom.enabled.value = true;
-        bloom.intensity.value = 0.5f;
-        bloom.threshold.value = 1.2f;
-        bloom.radius.value = 0.5f;
-        bloom.quality.value = PostProcessQuality.High;
-
-        // Color Adjustment (mejorar contraste y saturación)
-        var colorAdj = profile.GetSettings<ColorAdjustments>();
-        colorAdj.enabled.value = true;
-        colorAdj.contrast.value = 10f;
-        colorAdj.saturation.value = 5f;
-        colorAdj.brightness.value = 0f;
-
-        // Guardar el perfil
-        string profilePath = "Assets/PostProcess/CasinoProfile.asset";
-        Directory.CreateDirectory("Assets/PostProcess");
-        AssetDatabase.CreateAsset(profile, profilePath);
-        postProcessLayer.profile = profile;
-
-        // Añadir cámara de efecto (no necesario si usamos PostProcessLayer directamente)
     }
 
     private static void CreateTableFelt()
@@ -152,11 +126,8 @@ public static class ProSceneBuilder
         collider.size = new Vector2(2f, 1.5f);
         collider.isTrigger = false;
 
-        // Añadir script de DominoPiece para física en la mesa
-        // tableObj.AddComponent<DominoPiece>();
-
         // Colocar debajo de la cámara
-        GameObject tableContainer = new GameObject("TableContainer");
+        tableContainer = new GameObject("TableContainer");
         Undo.RegisterCreatedObjectUndo(tableContainer, "Crear TableContainer");
         GameObjectUtility.SetParentAndAlign(tableObj, tableContainer);
         Undo.RegisterCreatedObjectUndo(tableObj, "Crear TableFelt");
@@ -164,6 +135,8 @@ public static class ProSceneBuilder
 
     private static void CreateBoundaryColliders()
     {
+        if (tableContainer == null) return;
+
         // Crear colliders invisibles en los bordes de la mesa para que las fichas no caigan
         float tableWidth = 2f;
         float tableHeight = 1.5f;
@@ -189,11 +162,13 @@ public static class ProSceneBuilder
             BoxCollider2D collider = boundary.AddComponent<BoxCollider2D>();
             collider.size = sizes[i];
             collider.isTrigger = true; // Solo detener, no rebotar
-            collider.sharedMaterial = new PhysicsMaterial2D
-            {
-                friction = 0f,
-                bounce = 1f
-            };
+            
+            // Creamos un material físico básico por código ya que no se encontró el método anterior
+            PhysicsMaterial2D mat = new PhysicsMaterial2D();
+            mat.friction = 0f;
+            mat.bounciness = 1f; // Se usa bounciness en lugar de bounce
+            collider.sharedMaterial = mat;
+
             boundary.transform.position = positions[i];
             boundary.layer = LayerMask.NameToLayer("Default");
             Undo.RegisterCreatedObjectUndo(boundary, $"Crear {names[i]}");
@@ -211,7 +186,7 @@ public static class ProSceneBuilder
         canvas.pixelPerfect = true;
 
         CanvasScaler canvasScaler = canvasObj.AddComponent<CanvasScaler>();
-        canvasScaler.uiScaleMode = CanvasScaler.ScaleWithScreenSize;
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
         canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
@@ -221,6 +196,7 @@ public static class ProSceneBuilder
         GameObject panelObj = new GameObject("UIPanel");
         Image panelImage = panelObj.AddComponent<Image>();
         panelImage.color = new Color(0f, 0f, 0f, 0.3f); // Fondo semi-transparente
+        GameObjectUtility.SetParentAndAlign(panelObj, canvasObj);
 
         GameObjectUtility.SetParentAndAlign(canvasObj, null);
         Undo.RegisterCreatedObjectUndo(canvasObj, "Crear Canvas");
@@ -241,7 +217,11 @@ public static class ProSceneBuilder
             text.fontSize = 24;
             text.alignment = TextAnchor.MiddleCenter; // Uso estricto de TextAnchor
             text.color = Color.white;
-            text.font = Resources.Load<Font>("Fonts/ARIAL");
+            
+            // Intentar cargar Arial, si no usar la fuente por defecto
+            Font arial = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (arial != null) text.font = arial;
+
             text.rectTransform.SetParent(canvasObj.transform);
             text.rectTransform.localPosition = anchorPositions[i] * 500f; // Posición relativa
             text.rectTransform.localScale = Vector3.one;
@@ -251,6 +231,8 @@ public static class ProSceneBuilder
 
     private static void GeneratePlayerSeats()
     {
+        if (tableContainer == null) return;
+
         // Generar asientos para 4 jugadores en puntos cardinales
         Vector3[] seatPositions = new Vector3[4];
         seatPositions[0] = new Vector3(0, 3f, 0);     // Arriba (IA o Jugador 2)
@@ -284,16 +266,8 @@ public static class ProSceneBuilder
             Undo.RegisterCreatedObjectUndo(seatObj, $"Crear {seatLabels[i]}");
             GameObjectUtility.SetParentAndAlign(seatObj, tableContainer);
 
-            // Añadir etiqueta de posición
-            GameObject labelObj = new GameObject($"SeatLabel_{i}");
-            Text label = labelObj.AddComponent<Text>();
-            label.text = seatLabels[i];
-            label.alignment = TextAnchor.MiddleCenter;
-            label.fontSize = 18;
-            label.color = seatColors[i];
-            label.transform.SetParent(seatObj.transform);
-            label.transform.localPosition = new Vector3(0, -0.6f, 0);
-            Undo.RegisterCreatedObjectUndo(labelObj, $"Crear Label {i}");
+            // Evitamos UI canvas en world space para simplificar, 
+            // el jugador ya tiene identificadores
         }
     }
 
@@ -304,9 +278,13 @@ public static class ProSceneBuilder
         {
             // Copiar la carpeta de frutas a Assets/Resources/Frutas/
             string targetFolder = "Assets/Resources/Frutas/";
+            if (!Directory.Exists("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
             if (!Directory.Exists(targetFolder))
             {
-                Directory.CreateDirectory(targetFolder);
+                AssetDatabase.CreateFolder("Assets/Resources", "Frutas");
             }
 
             string[] fruitFiles = Directory.GetFiles(FRUITS_FOLDER_PATH, "*.png");
@@ -346,7 +324,4 @@ public static class ProSceneBuilder
         tex.SetPixels(pixels);
         tex.Apply();
     }
-
-    // Variable de referencia al contenedor de la mesa (necesario para el scope)
-    private static GameObject tableContainer;
 }

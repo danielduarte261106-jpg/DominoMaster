@@ -9,96 +9,150 @@ using System.Collections.Generic;
 /// </summary>
 public class EliteAIController : MonoBehaviour
 {
-    [Header("Configuración de IA")]
+    [Header("Configuracion de IA")]
     [SerializeField] private CasinoTableManager tableManager;
-    [SerializeField] private List<DominoPiece> hand; // Fichas actuales de la IA
+    [SerializeField] private HandManager handManager;  // fuente de verdad de la mano
+    [SerializeField] private List<DominoPiece> hand;   // fallback/debug manual
 
     [SerializeField] private float minThinkTime = 1.0f;
     [SerializeField] private float maxThinkTime = 2.5f;
 
-    private int currentPlayerIndex => tableManager?.GetCurrentPlayerIndex() ?? -1;
+    // Indice de jugador que controla esta IA (se inyecta en ExecuteTurn)
+    private int aiPlayerIndex = 1;
+
+    // Referencia al controlador activo (se inyecta en ExecuteTurn)
+    private MatchController matchController;
+
+    private int legacyPlayerIndex => tableManager?.GetCurrentPlayerIndex() ?? -1;
 
     private void OnEnable()
     {
-        // Suscripción opcional a eventos del gestor de mesa si es necesario
+        // Suscripcion opcional a eventos del gestor de mesa si es necesario
     }
 
+    // ── NUEVA API: punto de entrada desde MatchController ─────────────────────
+
     /// <summary>
-    /// Llama este método al inicio del turno de la IA para iniciar el ciclo de pensamiento.
+    /// MatchController llama este metodo cuando es el turno de la IA.
+    /// Inyecta la referencia al controlador y arranca la corrutina de pensamiento.
     /// </summary>
+    public void ExecuteTurn(MatchController controller)
+    {
+        matchController  = controller;
+        aiPlayerIndex    = controller.CurrentPlayerIndex;
+
+        // Resolver HandManager si no esta asignado
+        if (handManager == null)
+            handManager = FindAnyObjectByType<HandManager>();
+
+        bool hasCards = handManager != null
+            ? handManager.PlayerHasPlayable(aiPlayerIndex)
+            : (hand != null && hand.Count > 0);
+
+        if (!hasCards)
+        {
+            Debug.Log("[IA] Sin fichas jugables. Pasa automaticamente.");
+            matchController.PassTurn();
+            return;
+        }
+        StartCoroutine(CorrutinaPensamientoIA());
+    }
+
+    // ── API legacy (compatible con CasinoTableManager) ────────────────────────
+
+    /// <summary>Llamado desde CasinoTableManager (sistema legado).</summary>
     public void IniciarTurnoIA()
     {
         if (tableManager == null) tableManager = FindObjectOfType<CasinoTableManager>();
         if (hand == null || hand.Count == 0) return;
-
         StartCoroutine(CorrutinaPensamientoIA());
     }
 
     /// <summary>
-    /// Corrutina que simula 1 a 2.5 segundos de "pensamiento" antes de tomar una decisión.
+    /// Corrutina que simula pensamiento de IA antes de tomar una decision.
+    /// Prioridad: Comodin con bloqueo > mayor valor combinatorio > mejor jugable.
     /// </summary>
     private IEnumerator CorrutinaPensamientoIA()
     {
-        // 1. Tiempo de "pensamiento" aleatorio
         float thinkingDuration = Random.Range(minThinkTime, maxThinkTime);
         Debug.Log($"[IA] Pensando por {thinkingDuration:F2} segundos...");
         yield return new WaitForSeconds(thinkingDuration);
 
-        // 2. Evaluar todas las fichas de la mano
-        DominoPiece mejorFicha = null;
-        int mejorPuntuacion = int.MinValue;
-        bool puedeTrancarMesa = false;
-
-        foreach (var ficha in hand)
+        // Obtener mano efectiva: HandManager (preferido) o lista manual
+        IReadOnlyList<DominoPiece> efectiveHand = null;
+        if (handManager != null)
         {
-            // Prioridad 1: ¿Es un Comodín Combinatorio (doble o con 0/6)?
-            bool esComodin = ficha.IsDouble || ficha.HasRiskValue;
+            var playerHand = handManager.GetHand(aiPlayerIndex);
+            efectiveHand   = playerHand?.Pieces;
+        }
+        if (efectiveHand == null)
+            efectiveHand = hand;
 
-            if (esComodin)
+        DominoPiece mejorFicha = null;
+        int mejorPuntuacion    = int.MinValue;
+
+        if (efectiveHand != null)
+        {
+            foreach (var ficha in efectiveHand)
             {
-                // 3. Calcular valor de jugada combinatorio
+                if (ficha == null) continue;
+                if (matchController != null && !matchController.CanPlayPiece(ficha)) continue;
+
+                bool esComodin  = ficha.IsDouble || ficha.HasRiskValue;
                 int valorJugada = ficha.GetCombinatorialPlayValue();
 
-                // 4. Verificar si jugar esta ficha tranca la mesa
-                // Lógica simplificada: si el valor de la jugada es alto y la ficha tiene valores de riesgo (0 o 6),
-                // probabilidad alta de bloqueo.
-                if (puedeTrancarAlJugar(ficha))
+                if (esComodin && puedeTrancarAlJugar(ficha))
                 {
-                    puedeTrancarMesa = true;
-                    mejorFicha = ficha;
+                    mejorFicha      = ficha;
                     mejorPuntuacion = valorJugada;
-                    break; // La IA prioriza trancar la mesa
+                    break; // prioridad maxima
                 }
-                // 5. Si no tranca inmediatamente, busca el mayor puntaje posible
-                else if (valorJugada > mejorPuntuacion)
+
+                if (valorJugada > mejorPuntuacion)
                 {
                     mejorPuntuacion = valorJugada;
-                    mejorFicha = ficha;
+                    mejorFicha      = ficha;
                 }
             }
-            // Si no es comodín, la IA puede elegir una ficha segura para mantener el flujo,
-            // pero el enfoque principal es el comodín según la instrucción.
         }
 
-        // 6. Si no encontró comodín jugable, elige una ficha aleatoria o la de menor impacto
-        if (mejorFicha == null && hand.Count > 0)
+        // Fallback: mejor jugable segun HandManager
+        if (mejorFicha == null && handManager != null)
         {
-            mejorFicha = hand[Random.Range(0, hand.Count)];
-            Debug.Log("[IA] No encontró comodín, juega ficha aleatoria.");
+            mejorFicha = handManager.GetBestPlayableForAI(aiPlayerIndex);
+            if (mejorFicha != null)
+                Debug.Log("[IA] Fallback: juega la mejor ficha disponible.");
         }
 
-        // 7. Ejecutar movimiento
+        // 7. Ejecutar movimiento via MatchController (nueva API) o CasinoTableManager (legado)
         if (mejorFicha != null)
         {
-            Debug.Log($"[IA] Jugando ficha: {mejorFicha.gameObject.name} (Valor Combinatorio: {mejorFicha.GetCombinatorialPlayValue()})");
-            // Notificar al gestor de mesa que la IA jugó esta ficha.
-            // En una integración real, se pasaría el índice del jugador o la ficha específica.
-            tableManager.OnPlayerPlayedPiece(currentPlayerIndex);
+            Debug.Log($"[IA] Jugando ficha: {mejorFicha.gameObject.name} " +
+                      $"(Valor Combinatorio: {mejorFicha.GetCombinatorialPlayValue()})");
+
+            if (matchController != null)
+            {
+                // Nueva API: la IA juega directamente a traves del controlador
+                bool played = matchController.TryPlayPiece(mejorFicha);
+                if (!played)
+                {
+                    Debug.Log("[IA] TryPlayPiece fallo. La IA pasa.");
+                    matchController.PassTurn();
+                }
+            }
+            else if (tableManager != null)
+            {
+                // Legado: compatible con CasinoTableManager
+                tableManager.OnPlayerPlayedPiece(legacyPlayerIndex);
+            }
         }
         else
         {
-            Debug.Log("[IA] No hay movimientos válidos o decide pasar.");
-            tableManager.OnPlayerPasses(currentPlayerIndex);
+            Debug.Log("[IA] No hay movimientos validos. Pasa.");
+            if (matchController != null)
+                matchController.PassTurn();
+            else if (tableManager != null)
+                tableManager.OnPlayerPasses(legacyPlayerIndex);
         }
 
         // Turno terminado

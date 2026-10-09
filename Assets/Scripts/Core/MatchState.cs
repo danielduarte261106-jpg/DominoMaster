@@ -7,6 +7,21 @@ public enum BoardEnd
 }
 
 /// <summary>
+/// Resultado devuelto por MatchState.CheckAmbiguity.
+/// </summary>
+public enum PlacementAmbiguity
+{
+    /// La ficha solo encaja en Left (o la mesa está vacía).
+    LeftOnly,
+    /// La ficha solo encaja en Right.
+    RightOnly,
+    /// La ficha encaja en ambos extremos: hay que preguntar al jugador.
+    BothEnds,
+    /// La ficha no encaja en ninguno.
+    None
+}
+
+/// <summary>
 /// Estado puro de la cadena de fichas en mesa. Sin MonoBehaviour ni UI.
 /// LeftEnd / RightEnd son null hasta la primera ficha.
 /// </summary>
@@ -39,7 +54,25 @@ public sealed class MatchState
     public bool CanPlace(DominoPiece piece) => CanPlaceOnLeft(piece) || CanPlaceOnRight(piece);
 
     /// <summary>
-    /// Coloca la ficha en el primer extremo legal (mesa vacía, luego Left, luego Right).
+    /// Determina si la ficha tiene colocación ambigua (encaja en los dos extremos
+    /// a la vez) o si solo encaja en uno. Puro dominio: no toca Unity.
+    /// </summary>
+    public PlacementAmbiguity CheckAmbiguity(DominoPiece piece)
+    {
+        bool onLeft  = CanPlaceOnLeft(piece);
+        bool onRight = CanPlaceOnRight(piece);
+
+        if (!onLeft && !onRight) return PlacementAmbiguity.None;
+        if (IsEmpty)             return PlacementAmbiguity.LeftOnly; // primera ficha: sin ambigüedad
+        if (onLeft && onRight)   return PlacementAmbiguity.BothEnds;
+        return onLeft ? PlacementAmbiguity.LeftOnly : PlacementAmbiguity.RightOnly;
+    }
+
+    /// <summary>
+    /// Coloca la ficha en el primer extremo legal no ambiguo.
+    /// Si ambos extremos aceptan la ficha devuelve FALSE sin modificar el estado;
+    /// el controlador debe pedir al jugador que elija y luego llamar a
+    /// TryPlace(piece, chosenEnd, out usedEnd).
     /// </summary>
     public bool TryPlace(DominoPiece piece, out BoardEnd usedEnd)
     {
@@ -52,6 +85,10 @@ public sealed class MatchState
             PlaceFirst(piece);
             return true;
         }
+
+        // Si hay ambigüedad, rechazamos para que el controlador gestione la elección.
+        if (CanPlaceOnLeft(piece) && CanPlaceOnRight(piece))
+            return false;
 
         if (CanPlaceOnLeft(piece))
         {
@@ -68,6 +105,36 @@ public sealed class MatchState
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Overload con extremo explícito: úsalo cuando el jugador ya eligió
+    /// en qué extremo colocar la ficha (resuelve la ambigüedad).
+    /// </summary>
+    public bool TryPlace(DominoPiece piece, BoardEnd chosenEnd, out BoardEnd usedEnd)
+    {
+        usedEnd = chosenEnd;
+
+        if (piece == null || Contains(piece)) return false;
+
+        bool canChosen = chosenEnd == BoardEnd.Left
+            ? CanPlaceOnLeft(piece)
+            : CanPlaceOnRight(piece);
+
+        if (!canChosen) return false;
+
+        if (IsEmpty)
+        {
+            PlaceFirst(piece);
+            return true;
+        }
+
+        if (chosenEnd == BoardEnd.Left)
+            PlaceOnLeft(piece);
+        else
+            PlaceOnRight(piece);
+
+        return true;
     }
 
     public void Reset()

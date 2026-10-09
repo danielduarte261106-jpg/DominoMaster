@@ -33,7 +33,7 @@ public class DominoPiece : MonoBehaviour
     {
         matchController = GetComponentInParent<MatchController>();
         if (matchController == null)
-            matchController = FindFirstObjectByType<MatchController>();
+            matchController = FindAnyObjectByType<MatchController>();
     }
 
     private void OnMouseDown()
@@ -49,7 +49,7 @@ public class DominoPiece : MonoBehaviour
         lastClickFrame = Time.frameCount;
 
         if (matchController == null)
-            matchController = FindFirstObjectByType<MatchController>();
+            matchController = FindAnyObjectByType<MatchController>();
 
         if (matchController == null)
             return false;
@@ -71,18 +71,39 @@ public class DominoPiece : MonoBehaviour
         sideA = leftVal;
         sideB = rightVal;
 
-        // 2. EL ARREGLO DEL FONDO: Aseguramos un fondo blanco para la ficha
+        // 2. Fondo de ficha estilo dominó real (marfil con borde sutil y línea divisoria)
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = true;
-            if (spriteRenderer.sprite == null)
+            spriteRenderer.sortingOrder = 0;
+
+            const int w = 32;
+            const int h = 64;
+            Texture2D tex = new Texture2D(w, h);
+            Color ivory = new Color(0.96f, 0.95f, 0.91f);
+            Color border = new Color(0.35f, 0.35f, 0.35f);
+            Color divider = new Color(0.45f, 0.45f, 0.45f);
+
+            for (int y = 0; y < h; y++)
             {
-                Texture2D tex = new Texture2D(1, 1);
-                tex.SetPixel(0, 0, Color.white);
-                tex.Apply();
-                spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f), 1f);
-                spriteRenderer.color = new Color(0.95f, 0.95f, 0.95f);
+                for (int x = 0; x < w; x++)
+                {
+                    bool isBorder = x == 0 || x == w - 1 || y == 0 || y == h - 1;
+                    bool isDivider = (y == h / 2 - 1 || y == h / 2) && (x > 2 && x < w - 3);
+
+                    if (isBorder)
+                        tex.SetPixel(x, y, border);
+                    else if (isDivider)
+                        tex.SetPixel(x, y, divider);
+                    else
+                        tex.SetPixel(x, y, ivory);
+                }
             }
+            tex.filterMode = FilterMode.Point;
+            tex.Apply();
+
+            spriteRenderer.sprite = Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f), 32f);
+            spriteRenderer.color = Color.white;
         }
 
         if (bc == null)
@@ -115,6 +136,14 @@ public class DominoPiece : MonoBehaviour
         float absX = Mathf.Max(Mathf.Abs(parentScale.x), 0.0001f);
         float absY = Mathf.Max(Mathf.Abs(parentScale.y), 0.0001f);
         return new Vector3(desiredWorldSize / absX, desiredWorldSize / absY, 1f);
+    }
+
+    public void SetFaceDown(bool faceDown)
+    {
+        Transform top = transform.Find("TopHalf");
+        Transform bottom = transform.Find("BottomHalf");
+        if (top != null) top.gameObject.SetActive(!faceDown);
+        if (bottom != null) bottom.gameObject.SetActive(!faceDown);
     }
 
     private void CreateFruitHalf(string name, Vector3 localPosition, Vector3 localScale, Sprite fruitSprite)

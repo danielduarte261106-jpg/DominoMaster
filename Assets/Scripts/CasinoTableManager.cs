@@ -86,7 +86,8 @@ public class CasinoTableManager : MonoBehaviour
     private int playersInMatch = 4;
 
     private List<PlayerData> players = new List<PlayerData>();
-    private Stack<DominoSet> activeDeckPiles = new Stack<Stack<DominoSet>>();
+    // CORRECCIÓN APLICADA AQUÍ: Se eliminó el Stack extra.
+    private Stack<DominoSet> activeDeckPiles = new Stack<DominoSet>();
 
     [SerializeField] private float cameraShakeDuration = 0.5f;
     [SerializeField] private float cameraShakeMagnitude = 0.2f;
